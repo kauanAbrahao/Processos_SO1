@@ -13,7 +13,7 @@ public class RedesController {
 	}
 	
 	public void IP(String so) {
-		//Recebe o nome do S.O. como parâmetro e faz a chamada de configuração de IP e filtra a saída do processo, retornando
+		//Recebe o nome do S.O. como parï¿½metro e faz a chamada de configuraï¿½ï¿½o de IP e filtra a saï¿½da do processo, retornando
 		// um String com o nome do(s) adaptador(s) Ethernet e o IPv4 apenas.
 		
 		String linha = "";
@@ -22,10 +22,10 @@ public class RedesController {
 			System.out.println("Os seguintes Adaptadores Ethernet e respectivos IPv4 foram encontrados: ");
 			
 			try {
-				Process p = Runtime.getRuntime().exec("ipconfig"); //<cmd.exe /c start cmd.exe> se eu quiser de fato abrir o cmd, não só executar
+				Process p = Runtime.getRuntime().exec("ipconfig"); //<cmd.exe /c start cmd.exe> se eu quiser de fato abrir o cmd, nï¿½o sï¿½ executar
 				InputStream fluxo = p.getInputStream();//
 				InputStreamReader leitor = new InputStreamReader(fluxo);//
-				BufferedReader buffer = new BufferedReader(leitor); //essas linhas são padrões para leitura de processos.
+				BufferedReader buffer = new BufferedReader(leitor); //essas linhas sï¿½o padrï¿½es para leitura de processos.
 				linha = buffer.readLine();
 				String adapt= "";
 				while (linha != null) {
@@ -53,7 +53,7 @@ public class RedesController {
 						Process p = Runtime.getRuntime().exec(buffer.toString());
 						InputStream fluxo2 = p.getInputStream();
 						InputStreamReader leitor2 = new InputStreamReader(fluxo2);
-						BufferedReader buffer2 = new BufferedReader(leitor2); //essas linhas são padrões para leitura de processos.
+						BufferedReader buffer2 = new BufferedReader(leitor2); //essas linhas sï¿½o padrï¿½es para leitura de processos.
 						linha = buffer2.readLine();
 						while (buffer2.readLine()!= null) {
 							System.out.println(linha);
@@ -73,11 +73,40 @@ public class RedesController {
 
 		else {
 			if (so.contains("Linux")) {
-				System.out.println("Detectamos que seu sistema é: " + so);
+				System.out.println("Os seguintes adaptadores Ethernet e seus respectivos IPv4 foram econtrados: ");
+				try {
+					Process p = Runtime.getRuntime().exec("ifconfig");
+					InputStream fluxo = p.getInputStream();
+					InputStreamReader leitor = new InputStreamReader(fluxo);
+					BufferedReader buffer = new BufferedReader(leitor);
+					linha = buffer.readLine();
+					String adapt="";
+					while (linha != null) {
+						if (linha.contains("flags=")) {
+							adapt = linha;
+							String adapt1 [] = adapt.split(" ");
+							adapt = adapt1[0];
+						}
+						
+						if (linha.contains("inet ") && adapt!="") {
+							System.out.println(adapt + "\n" + linha.trim() + "\n");
+							adapt = "";
+						}
+						linha = buffer.readLine();
+					}
+					buffer.close();
+					fluxo.close();
+					leitor.close();
+					
+					
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				}
 				
 			}
 			else {
-				System.out.println("Não foi possível executar por conta da imcompatibilidade de sistema! ");
+				System.out.println("Nï¿½o foi possï¿½vel executar por conta da imcompatibilidade de sistema! ");
 			
 			}
 		}
@@ -87,7 +116,7 @@ public class RedesController {
 	//-----------------------------------//--------------------------------------------//----------------------------------------------//------------
 	
 	public void PING(String so) {
-		//Recebe o nome do S.O. como parâmetro e faz a chamada de ping com 10 iterações, pegando e devolvendo, em ms, apenas o tempo médio.
+		//Recebe o nome do S.O. como parï¿½metro e faz a chamada de ping com 10 iteraï¿½ï¿½es, pegando e devolvendo, em ms, apenas o tempo mï¿½dio.
 		
 		String linha = "";
 		
@@ -98,12 +127,12 @@ public class RedesController {
 				Process p = Runtime.getRuntime().exec("ping -n 10 www.google.com.br");
 				InputStream fluxo = p.getInputStream();//
 				InputStreamReader leitor = new InputStreamReader(fluxo);//
-				BufferedReader buffer = new BufferedReader(leitor); //essas linhas são padrões para leitura de processos.
+				BufferedReader buffer = new BufferedReader(leitor); //essas linhas sï¿½o padrï¿½es para leitura de processos.
 				linha = buffer.readLine();
 				while (linha != null) {
 					if (linha.contains("Mdia")) {
 						String ms = (linha.substring(linha.lastIndexOf(" ")));
-						System.out.println("o tempo médio de ping para www.google.com.br foi de:" + ms );
+						System.out.println("o tempo mÃ©dio de ping para www.google.com.br foi de:" + ms );
 					}
 					linha = buffer.readLine();
 					if (linha != null) {
@@ -112,6 +141,9 @@ public class RedesController {
 					}
 				
 				}
+				buffer.close();
+				leitor.close();
+				fluxo.close();
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -120,10 +152,27 @@ public class RedesController {
 		
 		else {
 			if (so.contains("Linux")) {
-				// bloco de código
+				try {
+					Process p = Runtime.getRuntime().exec("ping -c 10 www.google.com.br");
+					InputStream fluxo = p.getInputStream();//
+					InputStreamReader leitor = new InputStreamReader(fluxo);//
+					BufferedReader buffer = new BufferedReader(leitor); //essas linhas sï¿½o padrï¿½es para leitura de processos.
+					linha = buffer.readLine();
+					while (linha != null) {
+						if (linha.contains("avg")) {
+							String ms [] = linha.split("/");
+							System.out.println("o tempo mÃ©dio de ping para www.google.com.br foi de: " + ms[4] + "ms" );
+						}
+						linha = buffer.readLine();
+					}
+					
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+				}
 			}
 			else {
-				System.out.println("Não foi possível executar por conta da imcompatibilidade de sistema!");
+				System.out.println("Nï¿½o foi possï¿½vel executar por conta da imcompatibilidade de sistema!");
 			}
 		}
 		

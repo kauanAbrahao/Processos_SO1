@@ -4,29 +4,29 @@ import javax.swing.JOptionPane;
 
 import controller.RedesController;
 
-public class Main { //Escolhe qual ação quer fazer.
+public class Main { //Escolhe qual aï¿½ï¿½o quer fazer.
 	public static void main(String[] args) {
 		RedesController redes = new RedesController();
 		boolean manter = true;
 		
 		String so = System.getProperty("os.name");
 		if (so.contains("Windows")) {
-			System.out.println("Você selecionou configuração de IP. Detectamos que seu sistema é Windows. Mais precisamente, " + so);
+			System.out.println("Vocï¿½ selecionou configuraï¿½ï¿½o de IP. Detectamos que seu sistema ï¿½ Windows. Mais precisamente, " + so);
 		}
 		else {
 			if(so.contains("Linux")) {
-				System.out.println("Detectamos que seu sistema é Linux. Mais precisamente, " + so);
+				System.out.println("Detectamos que seu sistema Ã© Linux.");
 			}
 			else {
-				System.out.println("Seu Sistema Operacional não é compatível com o sistema!");
+				System.out.println("Seu Sistema Operacional nï¿½o ï¿½ compatï¿½vel com o sistema!");
 			}
 		}
 	
 			
 		
 		while(manter) {
-			int input = Integer.parseInt(JOptionPane.showInputDialog("Você acabou de Acessar o Sistema IP/PING! " + "\n" + "Escolha: " + "\n" + "1 - Mostrar IPv4 e"
-					+ "adaptadores Ethernet" + "\n" + "2 - Mostrar tempo médio de ping www.google.com.br" + "\n" + "0 - Sair do sistema"));
+			int input = Integer.parseInt(JOptionPane.showInputDialog("VocÃª acabou de Acessar o Sistema IP/PING! " + "\n" + "Escolha: " + "\n" + "1 - Mostrar IPv4 e"
+					+ " adaptadores Ethernet" + "\n" + "2 - Mostrar tempo mÃ©dio de ping www.google.com.br" + "\n" + "0 - Sair do sistema"));
 			
 			switch(input) {
 			
@@ -44,7 +44,7 @@ public class Main { //Escolhe qual ação quer fazer.
 				break;
 				
 			default:
-				System.out.println("Opção inválida. Tente novamente");
+				System.out.println("Opï¿½ï¿½o invï¿½lida. Tente novamente");
 				break;
 			}
 			
